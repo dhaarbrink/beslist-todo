@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>TODO</h1>
+    {% for flash_message in app.session.flashbag.get('info') %}
+        <div class="alert alert-info" role="alert">{{ flash_message }}</div>
+    {% endfor %}
+    {% for flash_message in app.session.flashbag.get('warning') %}
+        <div class="alert alert-warning" role="alert">{{ flash_message }}</div>
+    {% endfor %}
+    <table>
+        {% for task in tasks %}
+            <tr class="{% if task.completed %}complete{% endif %}" data-task-id="{{ task.id }}">
+                <td class="task">{{ task.task }}</td>
+                <td><span class="glyphicon glyphicon-edit edit clickable" aria-hidden="true"></span></td>
+                <td><span class="glyphicon glyphicon-check complete clickable" aria-hidden="true"></span></td>
+                <td><span class="glyphicon glyphicon-remove remove clickable" aria-hidden="true"></span></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td>Geen taken gevonden</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="99">
+                <form method="post" action="/add" name="addeditform">
+                    <input type="text" name="task" placeholder="Taak toevoegen"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+{% endblock %}
